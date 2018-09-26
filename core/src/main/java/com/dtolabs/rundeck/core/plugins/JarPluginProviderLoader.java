@@ -93,10 +93,10 @@ public class JarPluginProviderLoader implements ProviderLoader,
     public static final String RUNDECK_PLUGIN_TARGET_HOST_COMPAT = "Rundeck-Plugin-Target-Host-Compatibility";
 
     //End Plugin Version 2 attributes
-    private final File pluginJar;
-    private final File pluginJarCacheDirectory;
-    private final File cachedir;
-    private final boolean loadLibsFirst;
+    protected final File pluginJar;
+    protected final File pluginJarCacheDirectory;
+    protected final File cachedir;
+    protected final boolean loadLibsFirst;
     private final DateFormat cachedJarTimestampFormatter = new SimpleDateFormat(CACHED_JAR_TIMESTAMP_FORMAT);
     @SuppressWarnings("rawtypes")
     private Map<ProviderIdent, Class> pluginProviderDefs = new HashMap<ProviderIdent, Class>();
@@ -437,8 +437,8 @@ public class JarPluginProviderLoader implements ProviderLoader,
         return cls;
     }
 
-    private CachedJar cachedJar;
-    private Date loadedDate = null;
+    protected CachedJar cachedJar;
+    protected Date loadedDate = null;
 
     private synchronized JarPluginProviderLoader.CachedJar getCachedJar() throws PluginException {
         if (null == cachedJar) {
@@ -709,6 +709,9 @@ public class JarPluginProviderLoader implements ProviderLoader,
                     return false;
                 }
                 final Attributes mainAttributes = manifest.getMainAttributes();
+                if(mainAttributes.getValue("RundeckPro-Version")!=null){
+                    return false;
+                }
                 validateJarManifest(mainAttributes);
             }
             return true;
@@ -822,7 +825,7 @@ public class JarPluginProviderLoader implements ProviderLoader,
     /**
      * Holds the cached jar file, dir, libs list and class and resource loaders for a jar plugin
      */
-    private class CachedJar implements Closeable {
+    protected class CachedJar implements Closeable {
         private File dir;
         private File cachedJar;
         private Collection<File> depLibs;
