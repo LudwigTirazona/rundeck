@@ -488,7 +488,7 @@ public class JarPluginProviderLoader implements ProviderLoader,
      *
      * @return the collection of extracted files
      */
-    private Collection<File> extractDependentLibs(final File cachedir) throws IOException {
+    protected Collection<File> extractDependentLibs(final File cachedir) throws IOException {
         final Attributes attributes = getMainAttributes();
         if (null == attributes) {
             debug("no manifest attributes");
