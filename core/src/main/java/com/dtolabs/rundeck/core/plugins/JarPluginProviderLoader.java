@@ -709,7 +709,8 @@ public class JarPluginProviderLoader implements ProviderLoader,
                     return false;
                 }
                 final Attributes mainAttributes = manifest.getMainAttributes();
-                if(mainAttributes.getValue("RundeckPro-Version")!=null){
+                if(mainAttributes.getValue(RUNDECK_PLUGIN_VERSION)==null){
+                    System.out.println("returning false: file:"+file.getName());
                     return false;
                 }
                 validateJarManifest(mainAttributes);
